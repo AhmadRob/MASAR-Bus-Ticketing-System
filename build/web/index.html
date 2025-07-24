@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="icon" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/icons/train-front.svg" type="image/svg+xml">
+  <title>Masar | Premium Bus Ticketing</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- AOS Animation -->
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a365d;
+      --secondary: #ecc94b;
+      --light: #f8f9fa;
+      --dark: #1a202c;
+      --text: #4a5568;
+      --accent: #4299e1;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      margin: 0;
+      padding: 0;
+      background-color: var(--light);
+      overflow-x: hidden;
+    }
+
+    .hero-section {
+      height: 100vh;
+      background: linear-gradient(rgba(26, 54, 93, 0.85), rgba(26, 54, 93, 0.85)), 
+                  url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80') no-repeat center center;
+      background-size: cover;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-section::after {
+      content: '';
+      position: absolute;
+      bottom: -10%;
+      left: 0;
+      width: 100%;
+      height: 20%;
+      background: white;
+      transform: skewY(-4deg);
+      z-index: 1;
+    }
+
+    .navbar {
+      padding: 2rem 4rem;
+      background: transparent;
+      transition: all 0.3s ease;
+    }
+
+    .navbar.scrolled {
+      padding: 1rem 4rem;
+      background: var(--primary);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    .navbar-brand {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 2rem;
+      color: white;
+      letter-spacing: 1px;
+    }
+
+    .navbar-brand span {
+      color: var(--secondary);
+    }
+
+    .nav-link {
+      color: rgba(255,255,255,0.9);
+      font-weight: 500;
+      margin: 0 1rem;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--secondary);
+      transition: width 0.3s ease;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .nav-link:hover {
+      color: white;
+    }
+
+    .admin-btn {
+      background: var(--secondary);
+      color: var(--dark);
+      border-radius: 30px;
+      padding: 0.5rem 1.5rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .admin-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(236, 201, 75, 0.3);
+    }
+
+    .hero-content {
+      position: absolute;
+      top: 50%;
+      left: 10%;
+      transform: translateY(-50%);
+      max-width: 600px;
+      z-index: 2;
+    }
+
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 4rem;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    .hero-subtitle {
+      font-size: 1.2rem;
+      font-weight: 400;
+      line-height: 1.6;
+      margin-bottom: 2.5rem;
+      opacity: 0.9;
+    }
+
+    .btn-primary {
+      background-color: var(--secondary);
+      color: var(--dark);
+      border: none;
+      padding: 0.8rem 2.5rem;
+      border-radius: 30px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(rgba(255,255,255,0.2), rgba(255,255,255,0));
+      transform: translateY(100%);
+      transition: transform 0.3s ease;
+    }
+
+    .btn-primary:hover::after {
+      transform: translateY(0);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(236, 201, 75, 0.3);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid white;
+      color: white;
+      padding: 0.8rem 2.5rem;
+      border-radius: 30px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      transition: all 0.3s ease;
+      margin-left: 1rem;
+    }
+
+    .btn-outline:hover {
+      background: white;
+      color: var(--primary);
+    }
+
+    .features-section {
+      padding: 8rem 4rem;
+      background-color: white;
+      position: relative;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--dark);
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .section-subtitle {
+      color: var(--text);
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 4rem auto;
+    }
+
+    .feature-card {
+      padding: 2.5rem;
+      border-radius: 16px;
+      transition: all 0.3s ease;
+      height: 100%;
+      background: white;
+      border: 1px solid rgba(0,0,0,0.05);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(236, 201, 75, 0.1) 0%, rgba(236, 201, 75, 0) 100%);
+      z-index: -1;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .feature-card:hover::before {
+      opacity: 1;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+    }
+
+    .feature-icon {
+      font-size: 2.5rem;
+      color: var(--secondary);
+      margin-bottom: 1.5rem;
+      background: rgba(236, 201, 75, 0.1);
+      width: 70px;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
+
+    .feature-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--dark);
+    }
+
+    .feature-text {
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .bus-3d {
+      position: absolute;
+      right: 5%;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 500px;
+      height: 300px;
+      background: url('https://cdn.dribbble.com/users/1753953/screenshots/15276156/media/0a2b8b9c5f8b4e8e8b0b0b0b0b0b0b0b.png') no-repeat center center;
+      background-size: contain;
+      z-index: 0;
+      opacity: 0.9;
+    }
+
+    .cta-section {
+      padding: 8rem 4rem;
+      background: linear-gradient(135deg, var(--primary) 0%, #2c5282 100%);
+      color: white;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://www.transparenttextures.com/patterns/dark-geometric.png');
+      opacity: 0.05;
+      z-index: 1;
+    }
+
+    .cta-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .cta-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+    }
+
+    .cta-text {
+      font-size: 1.2rem;
+      max-width: 600px;
+      margin: 0 auto 3rem auto;
+      opacity: 0.9;
+    }
+
+    .footer {
+      padding: 6rem 4rem 2rem;
+      background-color: var(--dark);
+      color: white;
+      position: relative;
+    }
+
+    .footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 20px;
+      background: linear-gradient(to right, var(--secondary), var(--accent));
+    }
+
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-logo span {
+      color: var(--secondary);
+    }
+
+    .footer-links {
+      list-style: none;
+      padding: 0;
+    }
+
+    .footer-links li {
+      margin-bottom: 0.8rem;
+    }
+
+    .footer-links a {
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .footer-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--secondary);
+      transition: width 0.3s ease;
+    }
+
+    .footer-links a:hover::after {
+      width: 100%;
+    }
+
+    .footer-links a:hover {
+      color: white;
+    }
+
+    .social-icons {
+      margin-top: 2rem;
+    }
+
+    .social-icons a {
+      color: white;
+      font-size: 1.2rem;
+      margin-right: 1rem;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+    }
+
+    .social-icons a:hover {
+      color: var(--secondary);
+      background: rgba(255,255,255,0.2);
+      transform: translateY(-3px);
+    }
+
+    .newsletter-input {
+      background: rgba(255,255,255,0.1);
+      border: none;
+      color: white;
+      padding: 0.8rem 1rem;
+      border-radius: 30px 0 0 30px;
+    }
+
+    .newsletter-input::placeholder {
+      color: rgba(255,255,255,0.7);
+    }
+
+    .newsletter-btn {
+      background: var(--secondary);
+      color: var(--dark);
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 0 30px 30px 0;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .newsletter-btn:hover {
+      background: #f6e05e;
+    }
+
+    .floating-bus {
+      position: absolute;
+      width: 200px;
+      height: 100px;
+      background: url('https://cdn.dribbble.com/users/1753953/screenshots/15276156/media/0a2b8b9c5f8b4e8e8b0b0b0b0b0b0b0b.png') no-repeat center center;
+      background-size: contain;
+      opacity: 0.2;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .floating-bus-1 {
+      top: 20%;
+      left: 5%;
+    }
+
+    .floating-bus-2 {
+      bottom: 15%;
+      right: 8%;
+      animation-delay: 1s;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(2deg); }
+      100% { transform: translateY(0) rotate(0deg); }
+    }
+
+    @media (max-width: 1200px) {
+      .bus-3d {
+        width: 400px;
+        height: 240px;
+      }
+    }
+
+    @media (max-width: 992px) {
+      .hero-title {
+        font-size: 3rem;
+      }
+      
+      .hero-content {
+        left: 5%;
+      }
+
+      .bus-3d {
+        display: none;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 1.5rem;
+      }
+      
+      .hero-title {
+        font-size: 2.5rem;
+      }
+      
+      .hero-content {
+        padding: 0 1.5rem;
+        left: 0;
+        width: 100%;
+        text-align: center;
+      }
+      
+      .features-section, .cta-section {
+        padding: 4rem 1.5rem;
+      }
+      
+      .btn-outline {
+        margin-left: 0;
+        margin-top: 1rem;
+      }
+
+      .floating-bus {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <nav class="navbar navbar-expand-lg fixed-top">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">MAS<span>AR</span></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <i class="fas fa-bars text-white"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Routes</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="login.jsp">Login</a>
+            </li>
+            <li class="nav-item ms-2">
+              <a class="nav-link admin-btn" href="admin/adminLogin.jsp">
+                <i class="fas fa-lock me-1"></i> Admin
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    
+    <div class="hero-content" data-aos="fade-up" data-aos-duration="1000">
+      <h1 class="hero-title">Journey in Comfort & Style</h1>
+      <p class="hero-subtitle">Experience seamless travel with our premium bus ticketing system. Book your next adventure in just a few clicks.</p>
+      <div class="d-flex flex-wrap justify-content-center">
+        <a href="register.jsp" class="btn btn-primary">Get Started</a>
+        <a href="login.jsp" class="btn btn-outline">Explore Routes</a>
+      </div>
+    </div>
+
+    <div class="bus-3d" data-aos="fade-left" data-aos-delay="500"></div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features-section">
+    <div class="container">
+      <h2 class="section-title" data-aos="fade-up">Why Choose Masar?</h2>
+      <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100">We're redefining bus travel with technology and exceptional service</p>
+      
+      <div class="row g-4">
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-bolt"></i>
+            </div>
+            <h3 class="feature-title">Instant Booking</h3>
+            <p class="feature-text">Secure your seat in seconds with our lightning-fast booking system. No queues, no waiting.</p>
+          </div>
+        </div>
+        
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-map-marked-alt"></i>
+            </div>
+            <h3 class="feature-title">Smart Routes</h3>
+            <p class="feature-text">Discover optimized routes with real-time tracking and estimated arrival times.</p>
+          </div>
+        </div>
+        
+        <div class="col-md-4" data-aos="fade-up" data-aos-delay="400">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-shield-alt"></i>
+            </div>
+            <h3 class="feature-title">Travel Safe</h3>
+            <p class="feature-text">Your safety is our priority with verified operators and 24/7 customer support.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="floating-bus floating-bus-1"></div>
+    <div class="floating-bus floating-bus-2"></div>
+    
+    <div class="container cta-content">
+      <h2 class="cta-title" data-aos="fade-up">Ready for Your Next Journey?</h2>
+      <p class="cta-text" data-aos="fade-up" data-aos-delay="100">Join thousands of travelers enjoying stress-free bus travel across the country.</p>
+      <a href="register.jsp" class="btn btn-primary" data-aos="fade-up" data-aos-delay="200">Create Account</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4 mb-4 mb-md-0">
+          <div class="footer-logo">MAS<span>AR</span></div>
+          <p>Redefining bus travel with technology and exceptional service.</p>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+        
+        <div class="col-md-2 mb-4 mb-md-0">
+          <h5 class="mb-3">Company</h5>
+          <ul class="footer-links">
+            <li><a href="#">About Us</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Press</a></li>
+          </ul>
+        </div>
+        
+        <div class="col-md-2 mb-4 mb-md-0">
+          <h5 class="mb-3">Support</h5>
+          <ul class="footer-links">
+            <li><a href="#">Help Center</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+          </ul>
+        </div>
+        
+        <div class="col-md-4">
+          <h5 class="mb-3">Newsletter</h5>
+          <p>Subscribe to get special offers and travel tips</p>
+          <div class="input-group mb-3">
+            <input type="email" class="form-control newsletter-input" placeholder="Your email">
+            <button class="btn newsletter-btn" type="button">Subscribe</button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="text-center mt-5 pt-3 border-top border-secondary">
+        <p>© 2025 Masar. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- AOS Animation -->
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    // Initialize AOS animation
+    AOS.init({
+      once: true
+    });
+
+    // Navbar scroll effect
+    window.addEventListener('scroll', function() {
+      const navbar = document.querySelector('.navbar');
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    // 3D hover effect for buttons
+    const buttons = document.querySelectorAll('.btn-primary, .btn-outline, .admin-btn');
+    buttons.forEach(button => {
+      button.addEventListener('mousemove', function(e) {
+        const x = e.pageX - this.offsetLeft;
+        const y = e.pageY - this.offsetTop;
+        
+        this.style.setProperty('--x', x + 'px');
+        this.style.setProperty('--y', y + 'px');
+      });
+    });
+  </script>
+</body>
+</html>
